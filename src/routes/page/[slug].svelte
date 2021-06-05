@@ -5,11 +5,10 @@ import PagingBox from '../../components/PagingBox.svelte';
 import IndexRow from '../posts/IndexRow.svelte';
 import LibPagenate from '../../lib/LibPagenate'
 
-var config = Config.get_config()
-
+//var config = Config.get_config()
 export async function preload({ params }) {
   const page = params.slug
-  const res = await this.fetch(`/api/list?page=` + params.slug);
+  const res = await this.fetch(`page/${params.slug}.json`);
 	const data = await res.json();
   var index_posts =data.items
   LibPagenate.init()
@@ -23,7 +22,7 @@ export async function preload({ params }) {
 
 <script>
 export let index_posts , page_display, page;
-console.log(page_display)
+// console.log(page_display)
 </script>
 
 <style>

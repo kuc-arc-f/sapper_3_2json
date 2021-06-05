@@ -18,16 +18,19 @@ export async function preload() {
   var pageInfo=LibPagenate.get_page_start(1)
   index_posts = LibPagenate.getOnepageItems(index_posts, pageInfo.start , pageInfo.end )
   const display = LibPagenate.is_paging_display(index_posts.length)
+//  const arr = LibPagenate.get_arr_items(max)
 //console.log(max)
-  return { index_posts ,data , page_display: display };
+  return {
+    index_posts ,data , page_display: display , pagenate_arr: []
+  };
 }
 </script>
 
 <script>
-export let index_posts, data ,page_display;
+export let index_posts, data ,page_display ;
 var page_items = data.page_items
 var category_items = data.category_items
-console.log(page_display)
+//console.log(index_posts)
 </script>
 
 <style>
@@ -35,6 +38,7 @@ console.log(page_display)
 .badge_post{
 	position:absolute; top:-15px; left:10px; 
 }    
+.page_area_wrap{display: none;}
 </style>
 
 <svelte:head>

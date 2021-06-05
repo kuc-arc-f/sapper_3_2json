@@ -1,6 +1,6 @@
 <script>
 export let page_display , page;
-console.log("page=", page)
+//console.log("page=", page)
 var nextPage = parseInt(page) + 1
 </script>
 
