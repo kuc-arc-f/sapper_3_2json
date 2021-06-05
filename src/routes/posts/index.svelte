@@ -2,25 +2,32 @@
 import Config from '../../../app_config'
 import Nav from '../../components/Nav.svelte';
 import TopHeadBox from '../../components/TopHeadBox.svelte';
+import PagingBox from '../../components/PagingBox.svelte';
 import IndexRow from './IndexRow.svelte';
 import PagesRow from './PagesRow.svelte';
 import CategoryRow from './CategoryRow.svelte';
+import LibPagenate from '../../lib/LibPagenate'
 var config = Config.get_config()
 
 export async function preload() {
   const res = await this.fetch(`posts.json`);
 	const data = await res.json();
   var index_posts =data.items
-//console.log(index_posts)
-  return { index_posts ,data };
+  LibPagenate.init()
+  const max = LibPagenate.get_max_page(index_posts.length)
+  var pageInfo=LibPagenate.get_page_start(1)
+  index_posts = LibPagenate.getOnepageItems(index_posts, pageInfo.start , pageInfo.end )
+  const display = LibPagenate.is_paging_display(index_posts.length)
+//console.log(max)
+  return { index_posts ,data , page_display: display };
 }
 </script>
 
 <script>
-export let index_posts, data;
+export let index_posts, data ,page_display;
 var page_items = data.page_items
 var category_items = data.category_items
-console.log(category_items)
+console.log(page_display)
 </script>
 
 <style>
@@ -36,7 +43,7 @@ console.log(category_items)
 <Nav />
 <div class="body_main_wrap">
   <TopHeadBox site_name={config.MY_SITE_NAME} info_text={config.MY_SITE_INFO} />
-  <div class="container">
+  <div class="container pb-4">
     <div class="row">
       <div class="col-md-12">
         <div class="btn_disp_ara_wrap mt-0">
@@ -80,6 +87,7 @@ console.log(category_items)
         </div>
       </div>
     </div>
+    <PagingBox page_display={page_display} page={1} />
   </div>
   
 </div>
